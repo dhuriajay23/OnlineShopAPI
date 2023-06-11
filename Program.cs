@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 // Project
 using OnlineShopAPI.Data;
+using OnlineShopAPI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +16,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddDbContext<OnlineShopDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("OnlineShopConnectionString")));
+builder.Services.AddScoped<IProductService, ProductService>();
 
 var app = builder.Build();
 

@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 // Project
 using OnlineShopAPI.Data;
+using OnlineShopAPI.Services;
 
 namespace OnlineShopAPI.Controllers
 {
@@ -11,17 +12,17 @@ namespace OnlineShopAPI.Controllers
     [Route("api/[controller]")]
     public class ProductsController : ControllerBase
     {
-        private readonly OnlineShopDbContext _onlineShopDbContext;
+        private readonly IProductService _productService;
 
-        public ProductsController(OnlineShopDbContext onlineShopDbContext)
+        public ProductsController(IProductService productService)
         {
-            _onlineShopDbContext = onlineShopDbContext;
+            _productService = productService;
         }
 
         [HttpGet("GetAllProducts")]
         public async Task<IActionResult> Index()
         {
-            return Ok(await _onlineShopDbContext.Products.ToListAsync());
+            return Ok(await _productService.GetAllProducts());
         }
     }
 }
