@@ -27,7 +27,7 @@ namespace OnlineShopAPI.Services
             var serviceResponse =  new ServiceResponse<List<GetProductsDto>>();
             var dbProducts = await _onlineShopDbContext.Products.ToListAsync();
             serviceResponse.Data = _mapper.Map<List<GetProductsDto>>(dbProducts);
-            return serviceResponse;
+            return serviceResponse; s
         }
     }
 }
