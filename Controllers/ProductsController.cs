@@ -1,9 +1,8 @@
 ﻿// Microsoft
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 // Project
-using OnlineShopAPI.Data;
+using OnlineShopAPI.DTOs;
 using OnlineShopAPI.Services;
 
 namespace OnlineShopAPI.Controllers
@@ -23,6 +22,12 @@ namespace OnlineShopAPI.Controllers
         public async Task<IActionResult> Index()
         {
             return Ok(await _productService.GetAllProducts());
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddProduct([FromBody] AddProductDto newProduct)
+        {
+            return Ok(await _productService.AddNewProduct(newProduct));
         }
     }
 }

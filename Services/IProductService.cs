@@ -7,5 +7,6 @@ namespace OnlineShopAPI.Services
     public interface IProductService
     {
         Task<ServiceResponse<List<GetProductsDto>>> GetAllProducts();
+        Task<ServiceResponse<GetProductsDto>> AddNewProduct(AddProductDto newProduct);
     }
 }

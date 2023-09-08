@@ -11,7 +11,10 @@ namespace OnlineShopAPI.Helper
     {
         public AutoMapperProfile()
         {
+            CreateMap<Product, AddProductDto>();
+            CreateMap<AddProductDto, Product>();
             CreateMap<GetProductsDto, Product>();
+            CreateMap<Product, GetProductsDto>();
         }
     }
 }
