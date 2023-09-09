@@ -22,7 +22,7 @@ namespace OnlineShopAPI.Services
             _onlineShopDbContext = onlineShopDbContext;
         }
 
-        public async Task<ServiceResponse<GetProductsDto>> AddNewProduct(AddProductDto newProduct)
+        public async Task<ServiceResponse<GetProductsDto>> AddProduct(AddProductDto newProduct)
         {
             var serviceResponse = new ServiceResponse<GetProductsDto>();
             newProduct.Id = Guid.NewGuid();
@@ -34,7 +34,7 @@ namespace OnlineShopAPI.Services
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<List<GetProductsDto>>> GetAllProducts()
+        public async Task<ServiceResponse<List<GetProductsDto>>> GetProducts()
         {
             var serviceResponse = new ServiceResponse<List<GetProductsDto>>();
             var dbProducts = await _onlineShopDbContext.Products.ToListAsync();
@@ -67,6 +67,32 @@ namespace OnlineShopAPI.Services
             {
                 serviceResponse.Success = false;
                 serviceResponse.Message = ex.Message;
+            }
+
+            return serviceResponse;
+        }
+
+        public async Task<ServiceResponse<GetProductsDto>> UpdateProduct(Guid id, UpdateProductDto updatedProduct)
+        {
+            var serviceResponse = new ServiceResponse<GetProductsDto>();
+            var dbProduct = await _onlineShopDbContext.Products.FindAsync(id);
+
+            if (dbProduct != null)
+            {
+                dbProduct.Price = updatedProduct.Price;
+                dbProduct.Quantity = updatedProduct.Quantity;
+                dbProduct.Name = updatedProduct.Name;
+                dbProduct.Category = updatedProduct.Category;   
+
+                _onlineShopDbContext.Products.Update(dbProduct);
+                await _onlineShopDbContext.SaveChangesAsync();
+
+                serviceResponse.Data = _mapper.Map<GetProductsDto>(dbProduct);
+                serviceResponse.Message = "Product updated successfully.";
+            }
+            else { 
+                serviceResponse.Success = false;
+                serviceResponse.Message = "Product not found.";
             }
 
             return serviceResponse;

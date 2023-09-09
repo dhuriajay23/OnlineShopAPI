@@ -21,19 +21,32 @@ namespace OnlineShopAPI.Controllers
         [HttpGet("GetAllProducts")]
         public async Task<IActionResult> Index()
         {
-            return Ok(await _productService.GetAllProducts());
+            return Ok(await _productService.GetProducts());
         }
 
         [HttpPost]
         public async Task<IActionResult> AddProduct([FromBody] AddProductDto newProduct)
         {
-            return Ok(await _productService.AddNewProduct(newProduct));
+            return Ok(await _productService.AddProduct(newProduct));
         }
 
         [HttpGet("{id:Guid}")]
         public async Task<IActionResult> GetProduct([FromRoute] Guid id)
         {
             var response = await _productService.GetProduct(id);
+
+            if (response.Data == null)
+            {
+                return NotFound(response);
+            }
+
+            return Ok(response);
+        }
+
+        [HttpPut("{id:Guid}")]
+        public async Task<IActionResult> UpdateProduct([FromRoute] Guid id, UpdateProductDto updatedProduct)
+        {
+            var response = await _productService.UpdateProduct(id, updatedProduct);
 
             if (response.Data == null)
             {
