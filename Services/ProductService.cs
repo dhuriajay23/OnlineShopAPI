@@ -82,7 +82,7 @@ namespace OnlineShopAPI.Services
                 dbProduct.Price = updatedProduct.Price;
                 dbProduct.Quantity = updatedProduct.Quantity;
                 dbProduct.Name = updatedProduct.Name;
-                dbProduct.Category = updatedProduct.Category;   
+                dbProduct.Category = updatedProduct.Category;
 
                 _onlineShopDbContext.Products.Update(dbProduct);
                 await _onlineShopDbContext.SaveChangesAsync();
@@ -90,7 +90,30 @@ namespace OnlineShopAPI.Services
                 serviceResponse.Data = _mapper.Map<GetProductsDto>(dbProduct);
                 serviceResponse.Message = "Product updated successfully.";
             }
-            else { 
+            else
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = "Product not found.";
+            }
+
+            return serviceResponse;
+        }
+
+        public async Task<ServiceResponse<GetProductsDto>> DeleteProduct(Guid id)
+        {
+            var serviceResponse = new ServiceResponse<GetProductsDto>();
+            var dbProduct = await _onlineShopDbContext.Products.FindAsync(id);
+
+            if (dbProduct != null)
+            {
+                _onlineShopDbContext.Products.Remove(dbProduct);
+                await _onlineShopDbContext.SaveChangesAsync();
+
+                serviceResponse.Data = _mapper.Map<GetProductsDto>(dbProduct);
+                serviceResponse.Message = "Product deleted successfully.";
+            }
+            else
+            {
                 serviceResponse.Success = false;
                 serviceResponse.Message = "Product not found.";
             }

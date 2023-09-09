@@ -10,5 +10,6 @@ namespace OnlineShopAPI.Services
         Task<ServiceResponse<GetProductsDto>> AddProduct(AddProductDto newProduct);
         Task<ServiceResponse<GetProductsDto>> GetProduct(Guid id);
         Task<ServiceResponse<GetProductsDto>> UpdateProduct(Guid id, UpdateProductDto updatedProduct);
+        Task<ServiceResponse<GetProductsDto>> DeleteProduct(Guid id);
     }
 }

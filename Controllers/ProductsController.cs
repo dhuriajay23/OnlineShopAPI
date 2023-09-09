@@ -55,5 +55,18 @@ namespace OnlineShopAPI.Controllers
 
             return Ok(response);
         }
+
+        [HttpDelete("{id:Guid}")]
+        public async Task<IActionResult> DeleteProduct([FromRoute] Guid id)
+        {
+            var response = await _productService.DeleteProduct(id);
+
+            if (response.Data == null)
+            {
+                return NotFound(response);
+            }
+
+            return Ok(response);
+        }
     }
 }
