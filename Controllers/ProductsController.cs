@@ -29,5 +29,18 @@ namespace OnlineShopAPI.Controllers
         {
             return Ok(await _productService.AddNewProduct(newProduct));
         }
+
+        [HttpGet("{id:Guid}")]
+        public async Task<IActionResult> GetProduct([FromRoute] Guid id)
+        {
+            var response = await _productService.GetProduct(id);
+
+            if (response.Data == null)
+            {
+                return NotFound(response);
+            }
+
+            return Ok(response);
+        }
     }
 }

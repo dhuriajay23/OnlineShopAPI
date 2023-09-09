@@ -42,5 +42,34 @@ namespace OnlineShopAPI.Services
             serviceResponse.Message = $"Total Products: {dbProducts.Count}";
             return serviceResponse;
         }
+
+        public async Task<ServiceResponse<GetProductsDto>> GetProduct(Guid id)
+        {
+            var serviceResponse = new ServiceResponse<GetProductsDto>();
+
+            try
+            {
+                var dbProduct = await _onlineShopDbContext.Products.FirstOrDefaultAsync(p => p.Id == id);
+
+                if (dbProduct != null)
+                {
+                    serviceResponse.Data = _mapper.Map<GetProductsDto>(dbProduct);
+                    serviceResponse.Message = "Product found.";
+                }
+                else
+                {
+                    serviceResponse.Success = false;
+                    serviceResponse.Message = "Product not found.";
+                }
+
+            }
+            catch (Exception ex)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = ex.Message;
+            }
+
+            return serviceResponse;
+        }
     }
 }

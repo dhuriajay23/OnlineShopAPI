@@ -8,5 +8,6 @@ namespace OnlineShopAPI.Services
     {
         Task<ServiceResponse<List<GetProductsDto>>> GetAllProducts();
         Task<ServiceResponse<GetProductsDto>> AddNewProduct(AddProductDto newProduct);
+        Task<ServiceResponse<GetProductsDto>> GetProduct(Guid id);
     }
 }
